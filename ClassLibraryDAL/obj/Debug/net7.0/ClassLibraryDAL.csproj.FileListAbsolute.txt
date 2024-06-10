@@ -1,0 +1,15 @@
+D:\NexusFarmProj\ClassLibraryDAL\bin\Debug\net7.0\ClassLibraryDAL.deps.json
+D:\NexusFarmProj\ClassLibraryDAL\bin\Debug\net7.0\ClassLibraryDAL.dll
+D:\NexusFarmProj\ClassLibraryDAL\bin\Debug\net7.0\ClassLibraryDAL.pdb
+D:\NexusFarmProj\ClassLibraryDAL\bin\Debug\net7.0\ClassLibraryModel.dll
+D:\NexusFarmProj\ClassLibraryDAL\bin\Debug\net7.0\ClassLibraryModel.pdb
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.csproj.AssemblyReference.cache
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.AssemblyInfoInputs.cache
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.AssemblyInfo.cs
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.csproj.CoreCompileInputs.cache
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLib.44BF68BC.Up2Date
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.dll
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\refint\ClassLibraryDAL.dll
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ClassLibraryDAL.pdb
+D:\NexusFarmProj\ClassLibraryDAL\obj\Debug\net7.0\ref\ClassLibraryDAL.dll

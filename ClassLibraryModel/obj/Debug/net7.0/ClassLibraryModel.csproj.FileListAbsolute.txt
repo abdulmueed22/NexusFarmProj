@@ -1,0 +1,11 @@
+D:\NexusFarmProj\ClassLibraryModel\bin\Debug\net7.0\ClassLibraryModel.deps.json
+D:\NexusFarmProj\ClassLibraryModel\bin\Debug\net7.0\ClassLibraryModel.dll
+D:\NexusFarmProj\ClassLibraryModel\bin\Debug\net7.0\ClassLibraryModel.pdb
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ClassLibraryModel.GeneratedMSBuildEditorConfig.editorconfig
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ClassLibraryModel.AssemblyInfoInputs.cache
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ClassLibraryModel.AssemblyInfo.cs
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ClassLibraryModel.csproj.CoreCompileInputs.cache
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ClassLibraryModel.dll
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\refint\ClassLibraryModel.dll
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ClassLibraryModel.pdb
+D:\NexusFarmProj\ClassLibraryModel\obj\Debug\net7.0\ref\ClassLibraryModel.dll
