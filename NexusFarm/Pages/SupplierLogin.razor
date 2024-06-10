@@ -1,0 +1,59 @@
+﻿@page "/loginsupplier"
+@using ClassLibraryDAL
+@using ClassLibraryModel
+@inject NavigationManager NavigationManager
+
+
+<div class="modal-body">
+    <form @onsubmit="HandleLoginSubmit">
+                    <div class="form-group">
+                        <label for="exampleInputUserName">User Name</label>
+                        <input type="text" class="form-control" id="exampleInputUserName"
+                               aria-describedby="nameHelp" @bind-value="username"
+                               placeholder="Enter User Name">
+                        <small id="nameHelp" class="form-text text-muted">Enter your User Name</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword2">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword2"
+                               name="exampleInputPassword2" minlength="6" maxlength="6" pattern="\d{6}"
+                               aria-describedby=" pinHelp" placeholder="PIN Code"
+                               @bind-value="password"
+                               title="Please enter a 6-digit PIN code" required>
+                        <small id="pinHelp" class="form-text text-muted">Enter your PIN code</small>
+                    </div>
+        <button type="submit" @onsubmit="HandleLoginSubmit" class="btn btn-outline-success">Submit</button>
+                </form>
+            </div>
+
+@code {
+    string username;
+    int password;
+    private List<SupplierModel> listSuppleirs = new List<SupplierModel>();
+
+    protected override void OnInitialized()
+    {
+        listSuppleirs = SupplierDAL.GetSupplier();
+        base.OnInitialized();
+    }
+
+    private void HandleLoginSubmit()
+    {
+        foreach (var user in listSuppleirs)
+        {
+            if (user.supplierName == username && user.supplierPIN == password)
+            {
+                NavigationManager.NavigateTo($"/sbidshowcase/{user.SupplierID}");
+                return;
+            }
+        }
+    }
+
+    private void NavigateToSignUp()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
+
+
+

@@ -1,0 +1,225 @@
+﻿@using ClassLibraryDAL
+@using ClassLibraryModel
+@using NexusFarm.Pages
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+    <NavLink class="navbar-brand" href="#"><img src="img/logo.png" alt="Company Logo" style="width: 40px; height: 40px;"></NavLink>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/aboutus">About Us</a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="/contactus">Contact Us</a>
+            </li>
+
+            @*
+               farmer Info: This Component will show the working of farmer Module.
+               We can see registered farmers and allow to upload products.
+               The user can also see uploaded bids of supplier.
+               It was made for testing of the module
+            *@
+
+            @*
+            <li class="nav-item">
+                <a class="nav-link" href="/farmerinfo">Farmer Info</a>
+            </li>
+            *@
+            
+
+            @*
+                This component will show all the Suppliers and bids to Farmers
+            *@
+
+            @*
+            <li class="nav-item">
+                <a class="nav-link" href="/registeredsuppliers">registered Suppliers</a>
+            </li>
+            *@
+
+            @*
+                This component is made for testing to see registered Supplier
+                and upload their Bids and see Farmer and their uploaded Products
+            *@
+
+            @*
+            <li class="nav-item">
+                <a class="nav-link" href="/supplierinfo">Supplier Info</a>
+            </li>
+            *@
+            
+ 
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <div class="mx-2">
+            <button class="btn btn-warning" data-toggle="modal" data-target="#signupModal">Register</button>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#loginModal">Login</button>
+        </div>
+    </div>
+</nav>
+
+
+<!--Signup Modal-->
+<div class="modal fade" id="signupModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Register Type:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mx-2 d-flex justify-content-between">
+                    <button class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#signupModalFarmer">
+                        Register as
+                        a
+                        Farmer
+                    </button>
+                    <button class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#signupModalSupplier">
+                        Register
+                        as a
+                        Supplier
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Signup Modal end-->
+
+<!--login Modal-->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login Type:</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="mx-2 d-flex justify-content-between">
+                    <button class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#loginModalFarmer">
+                        Login as a
+                        Farmer
+                    </button>
+                    <button class="btn btn-outline-success" data-toggle="modal"
+                            data-target="#loginModalSupplier">
+                        Login as a
+                        Supplier
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--login Modal end-->
+
+<!--Login  Modal for farmer-->
+<div class="modal fade" id="loginModalFarmer" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login as Farmer</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+             
+            </div>
+            <FarmerLogin/>
+        </div>
+    </div>
+</div>
+<!-- login modal end -->
+
+<!--Login  Modal supplier-->
+<div class="modal fade" id="loginModalSupplier" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Login to as Supplier</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <SupplierLogin />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- login modal end -->
+
+<!-- Sign Up Modal for farmer-->
+<div class="modal fade" id="signupModalFarmer" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Get a Farmer Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <FarmerRegistration/>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- signup modal end -->
+
+<!-- Sign Up Modal for supplier-->
+<div class="modal fade" id="signupModalSupplier" tabindex="-1" role="dialog" aria-labelledby="signupModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Get a Supplier Account</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <SupplierRegistration />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- signup modal end -->
+<!-- Nav bar ending -->
+@code {
+    private bool collapseNavMenu = true;
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+    
+}

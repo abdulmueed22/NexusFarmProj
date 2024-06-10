@@ -1,0 +1,152 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<style>
+    .bcolor {
+        background-color: #f0f0f0;
+    }
+</style>
+    <!-- Courousel -->
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img class="d-block w-100" src="img/2.png" alt="First slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Fair Trade Simplified for Businesses</h1>
+                    <p>Partnership, Sourcing, and Agrinetwork</p>
+                <br><br><br><br
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="img/3.png" alt="Second slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Making Fair Trade Easy for B2B.</h1>
+                    <p>Connections, Suppliers, and Farmers</p>
+                <br><br><br><br>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img class="d-block w-100" src="img/1.png" alt="Third slide">
+                <div class="carousel-caption d-none d-md-block">
+                    <h1>Award-Winning Ideas</h1>
+                    <p>Collaboration, Marketplace, and AgriSupply</p>
+                <br><br><br><br>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <!-- Courousel end -->
+
+
+    <!-- Section 1 -->
+    <div class="container-fluid bcolor p-4">
+        <div class="row featurette d-flex justify-content-center align-items-center">
+            <div class="col-md-6">
+                <h2 class="featurette-heading text-success">How does NexusFarm work?</h2>
+                <ol class="list-group list-group-numbered lead">
+                    <li class="list-group-item">1. Signup to the platform</li>
+                    <li class="list-group-item">2. Create your offer or bid</li>
+                    <li class="list-group-item">3. Set quantity and price</li>
+                    <li class="list-group-item">4. Provide crop details</li>
+                    <li class="list-group-item">5. Stay updated with email notifications</li>
+                </ol>
+                <div class="my-4">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Discover More</button>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <img class="featurette-image img-fluid" src="img/imag1.png" alt="Featurette Image"
+                    style="width: 300px; height: 300px;">
+            </div>
+        </div>
+    </div>
+    <!-- Section1 end -->
+
+    <!-- section2 -->
+    <div class="container-fluid p-4">
+        <div class="row featurette d-flex justify-content-center align-items-center p-3">
+            <div class="col-md-6 order-md-2">
+                <h2 class="featurette-heading">Our Solution</h2>
+                <p class="lead">
+                    Agri Marketplace is a digital B2B market solution that brings together Farmers and Industrial
+                    Buyers. Agri Marketplace does not buy or sell crops and is not a broker. Instead, we offer you the
+                    ability to effortlessly market your crop via our platform.
+                </p>
+                <div class="my-4">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Explore the Marketplace</button>
+                </div>
+            </div>
+            <div class="col-md-6 d-flex justify-content-center">
+                <img class="featurette-image img-fluid" src="img/imag2.png" alt="Featurette Image"
+                    style="width: 300px; height: 300px">
+            </div>
+        </div>
+    </div>
+    <!-- section2 end -->
+
+
+    <!-- section3 -->
+    <div class="container-fluid bcolor p-4">
+        <!-- Content row with proper spacing -->
+        <div class="row my-4">
+
+            <!-- Full-width section with centered heading -->
+            <div class="col-12 text-center mb-4">
+                <h2 class="featurette-heading text-success">GET STARTED</h2>
+                <p class="lead">
+                    We open the door to thousands of approved buyers and sellers. Post your crop bid as a registered
+                    buyer, or create your crop offer as a platform-verified seller. Through our rigorous customer
+                    compliance, we ensure that only reliable users gain access to our digital marketplace. There are
+                    two ways to get started:
+                </p>
+            </div>
+
+            <!-- Two columns with padding to separate them -->
+            <div class="col-md-6 p-3">
+                <h2 class="featurette-heading text-success">POST OFFER AS A SELLER</h2>
+                <p class="lead">
+                    As a seller, post offers for the agricultural crop you are looking to sell, and gain immediate
+                    access to credit-verified buyers. Or simply react to an existing buyer's bid and start your
+                    transaction.
+                </p>
+                <div class="my-4">
+                    <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal"
+                        data-target="#signupModalFarmer">Register as a Seller</button>
+                </div>
+            </div>
+
+            <div class="col-md-6 p-3">
+                <h2 class="featurette-heading text-success">POST BID AS A BUYER</h2>
+                <p class="lead">
+                    As a buyer, you can post bids for the agricultural crop you are interested in buying, and gain
+                    immediate access to credit-verified sellers. You can also respond to an existing seller's offer
+                    and begin the transaction process.
+                </p>
+                <div class="my-4">
+                    <button class="btn btn-outline-success my-2 my-sm-0" data-toggle="modal"
+                        data-target="#signupModalSupplier">Register as a Buyer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- section3 end -->
+
+    <!-- chart image -->
+@*    <div class="container-fluid d-flex align-items-center justify-content-center">
+        <img class="img-fluid" src="img/chart.png" alt="Chart Image" style="max-width: 400px; max-height: 400px;">
+      </div>*@
+    <!-- chart image end -->

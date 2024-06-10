@@ -1,0 +1,47 @@
+﻿@*
+	This component is made for testing to see registered Supplier
+	and upload their Bids and see Farmer and their uploaded Products
+*@
+
+@using ClassLibraryModel
+@using ClassLibraryDAL
+
+@page "/supplierinfo"
+
+<PageTitle>Farmer Information</PageTitle>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Contact</th>
+			<th>Address</th>
+			<th>See Suppliers</th>
+		</tr>
+	</thead>
+	@foreach (var item in supplierInfo)
+	{
+		<tr>
+			<td>@item.SupplierID</td>
+			<td>@item.supplierName</td>
+			<td>@item.supplierContact</td>
+			<td>@item.supplierAddress</td>
+			<td><a href="sbidshowcase/@item.SupplierID">Add Product</a></td>
+		</tr>
+	}
+
+</table>
+
+
+@code {
+	public List<SupplierModel> supplierInfo { get; set; } = new List<SupplierModel>();
+	protected override void OnInitialized()
+	{
+		GetFarmers();
+	}
+
+	private void GetFarmers()
+	{
+		supplierInfo = SupplierDAL.GetSupplier();
+	}
+}

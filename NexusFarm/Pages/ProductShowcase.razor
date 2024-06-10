@@ -1,0 +1,143 @@
+﻿@*This Component will showcase all the uploaded products of Farmer to Supplier*@
+
+@using Amazon.S3
+@using Amazon.S3.Model
+@using ClassLibraryDAL
+@using ClassLibraryModel
+@using System.Data.SqlClient
+@page "/fproductshowcase/{fid}"
+<PageTitle>Farmer Product Information</PageTitle>
+
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 style="color: rgba(0, 128, 0, 0.7); font-family: 'Arial', sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Uploaded Products</h2>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<div class="container">
+    @for (var i = 0; i < fProductList.Count; i += 2)
+    {
+        <div class="row m-2">
+            @for (var j = i; j < i + 2 && j < fProductList.Count; j++)
+            {
+                var item = fProductList[j];
+                <div class="col-md-6" style="padding: 0;">
+                    <div class="row m-2" style="border: 2px solid black">
+                        <div class="col-md-12" style="background-color: #f0f0f0;">
+                            <div class="row align-items-center">
+                                <div class="col-4">
+                                    <img src="@item.productImg" class="img-fluid" alt="Product Image" style="max-height: 100px;">
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="text-muted">@item.productCategory</span>
+                                        </div>
+                                        <div class="col-12">
+                                            <strong>@item.productName</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <span>Minimum Order Quantity: @item.productQty</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+
+
+
+@code {
+    [Parameter]
+    public string fid { get; set; }
+    public static string prodimgURL { get; set; }
+    public ClassLibraryModel.FarmerProduct farmerProduct { get; set; } = new ClassLibraryModel.FarmerProduct();
+    public List<ClassLibraryModel.FarmerProduct> fProductList { get; set; } = new List<ClassLibraryModel.FarmerProduct>();
+    private string msg = String.Empty;
+    public async Task SaveFarmerP()
+    {
+        farmerProduct.PID_FK = int.Parse(fid);
+        farmerProduct.productImg = prodimgURL;
+        await SaveFP(farmerProduct);
+        farmerProduct = new ClassLibraryModel.FarmerProduct();
+    }
+    public async Task SaveImg(InputFileChangeEventArgs e)
+    {
+        IBrowserFile browserFile = e.File;
+
+        using (var stream = new MemoryStream())
+        {
+            await browserFile.OpenReadStream().CopyToAsync(stream);
+
+            using (var s3Client = new AmazonS3Client("AWS Access key ID", "AWS Secret Access Key", Amazon.RegionEndpoint.USWest2)) // Replace with your AWS credentials
+            {
+                var request = new PutObjectRequest
+                    {
+                        BucketName = "nexusfarm",
+                        Key = browserFile.Name,
+                        InputStream = stream,
+                        ContentType = browserFile.ContentType
+                    };
+
+                await s3Client.PutObjectAsync(request);
+                var urlRequest = new GetPreSignedUrlRequest
+                    {
+                        BucketName = "nexusfarm",
+                        Key = browserFile.Name,
+                        Expires = DateTime.Now.AddYears(1) // Expiration time
+                    };
+
+                prodimgURL = s3Client.GetPreSignedURL(urlRequest);
+            }
+            farmerProduct.productImg = prodimgURL;
+        }
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFarmerProducts();
+    }
+
+    private async Task GetFarmerProducts()
+    {
+        fProductList = await FarmerProductDAL.GetFarmerProductByFID(fid);
+    }
+
+    public static async Task SaveFP(ClassLibraryModel.FarmerProduct farmerProd)
+    {
+        try
+        {
+            farmerProd.productImg = prodimgURL;
+            SqlConnection con = DBContext.GetConnection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Sp_SaveFarmerProduct", con); 
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@productName", farmerProd.productName);
+            cmd.Parameters.AddWithValue("@PID_FK", farmerProd.PID_FK);
+            cmd.Parameters.AddWithValue("@productQty", farmerProd.productQty);
+            cmd.Parameters.AddWithValue("@productCategory", farmerProd.productCategory);
+            cmd.Parameters.AddWithValue("@productImg", farmerProd.productImg);
+
+            cmd.ExecuteNonQuery(); 
+            con.Close();
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+}

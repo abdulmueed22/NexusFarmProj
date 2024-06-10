@@ -1,0 +1,58 @@
+﻿@*This component will show all the Suppliers to Farmers*@
+
+@using ClassLibraryModel
+@using ClassLibraryDAL
+
+@page "/registeredsuppliers"
+
+<PageTitle>Supplier Information</PageTitle>
+
+<br>
+<br>
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col text-center">
+			<h2 style="color: rgba(0, 128, 0, 0.7); font-family: 'Arial', sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Registered Suppliers</h2>
+		</div>
+	</div>
+</div>
+
+
+
+
+<div class="container-fluid">
+	@for (var i = 0; i < supplierInfo.Count; i += 3)
+	{
+		<div class="row mt-4 justify-content-center">
+			@for (var j = i; j < i + 3 && j < supplierInfo.Count; j++)
+			{
+				var item = supplierInfo[j];
+				<div class="col-md-3 m-2 p-4" style="background-color: #f0f0f0;">
+					<div>
+						<span class="font-weight-light">Suppleir Name: @item.supplierName</span><br />
+						<span class="font-weight-bold">Supplier Address: @item.supplierAddress</span><br />
+					</div>
+					<div class="mt-2">
+						<button type="button" class="btn btn-sm btn-success mr-2" onclick="window.location.href='https://wa.me/92@item.farmerContact'">Contact Us</button>
+						<a href="seebids/@item.SupplierID" class="btn btn-sm btn-outline-success">Explore Bids</a>
+			</div>
+				</div>
+			}
+		</div>
+	}
+</div>
+
+@code {
+	public List<SupplierModel> supplierInfo { get; set; } = new List<SupplierModel>();
+	protected override void OnInitialized()
+	{
+		GetSuppliers();
+	}
+
+	private void GetSuppliers()
+	{
+		supplierInfo = SupplierDAL.GetSupplier();
+	}
+}
+

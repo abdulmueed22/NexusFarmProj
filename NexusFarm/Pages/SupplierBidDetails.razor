@@ -1,0 +1,60 @@
+﻿
+@*This component will allow the Farmers to see supplier bids*@
+
+@using ClassLibraryDAL
+@using ClassLibraryModel
+@using System.Data.SqlClient
+@page "/seebids/{sid}"
+<PageTitle>Supplier Bids Information</PageTitle>
+
+
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 style="color: rgba(0, 128, 0, 0.7); font-family: 'Arial', sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Uploaded Bids</h2>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid">
+    @for (var i = 0; i < sProductList.Count; i += 3)
+    {
+        <div class="row mt-4 justify-content-center">
+            @for (var j = i; j < i + 3 && j < sProductList.Count; j++)
+            {
+                var item = sProductList[j];
+                <div class="col-md-3 m-2 p-4" style="background-color: #f0f0f0;">
+                    <div>
+                        <span class="font-weight-light">Product Name: @item.bidName</span><br />
+                        <span class="font-weight-light">Product Category: @item.bidCategory</span><br />
+                        <span class="font-weight-light">Product Quantity: @item.bidQty</span><br />
+                        <span class="font-weight-bold">Proposed Price: @item.bidPrice</span><br />
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string sid { get; set; }
+    public ClassLibraryModel.SupplierBidModel supplierProduct { get; set; } = new ClassLibraryModel.SupplierBidModel();
+    public List<ClassLibraryModel.SupplierBidModel> sProductList { get; set; } = new List<ClassLibraryModel.SupplierBidModel>();
+    private string msg = String.Empty;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetSupplierProduct();
+    }
+
+    private async Task GetSupplierProduct()
+    {
+        sProductList = await SupplierBidDAL.GetSupplierProductBySupplierID(sid);
+    }
+}

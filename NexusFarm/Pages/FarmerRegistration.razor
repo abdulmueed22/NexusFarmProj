@@ -1,0 +1,71 @@
+﻿@page "/regfarm"
+@inject Microsoft.JSInterop.IJSRuntime JSRuntime
+@using ClassLibraryDAL
+@using ClassLibraryModel
+
+
+<div class="modal-body">
+
+    <form>
+        <div class="form-group">
+            <label for="exampleInputUserName">Farmer Name:</label>
+            <input type="text" class="form-control" id="exampleInputUserName"
+                   aria-describedby="nameHelp" placeholder="Enter Name"
+                   @bind-value="farmerModel.farmerName" required>
+            <small id="nameHelp" class="form-text text-muted">Enter Farmer's Name</small><br>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">PIN:</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                   name="exampleInputPassword1" minlength="6" maxlength="6" pattern="\d{6}"
+                   aria-describedby=" pinHelp"
+                   @bind-value="farmerModel.farmerPIN" placeholder="PIN Code"
+                   title="Please enter a 6-digit PIN code" required>
+            <small id="pinHelp" class="form-text text-muted">Enter a 6 digit PIN code</small><br>
+        </div>
+        <div class="form-group">
+            <label for="address">Enter your address:</label><br>
+            <textarea id="address" class="form-control" name="address" rows="4" cols="50"
+                      placeholder="Street 118, G11/4, Kahirpur, Sindh"
+                      aria-describedby="addressHelp" @bind="farmerModel.farmerAddress"
+                      required></textarea>
+            <small id="addressHelp" class="form-text text-muted">Enter your Street, Area, City and Province</small><br>
+        </div>
+
+        <div class="form-group">
+            <label for="Company">Enter you Company Name:</label>
+            <input type="text" class="form-control" id="Company" name="Company"
+                   placeholder="Enter your Company Name"
+                   @bind-value="farmerModel.farmerCompany" required><br>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label><br>
+            <input type="tel" class="form-control" id="phone" name="phone"
+                   placeholder="+92 (Enter 10-digit number)" @bind-value="farmerModel.farmerContact" required>
+            <small>Please enter the remaining 10 digits without spaces or dashes.</small><br>
+        </div>
+        <button type="submit" @onclick="SaveFarmer" class="btn btn-outline-success">Submit</button>
+    </form>
+
+
+</div>
+
+
+@code{
+    public FarmerModel farmerModel {get;set;} = new FarmerModel();
+    private string msg = String.Empty;
+    public void SaveFarmer(){
+        int i = FarmerDAL.SaveFarmer(farmerModel);
+        if(i==1)
+        {
+            msg = "Success";
+        }
+        else
+        {
+            msg = "Error";
+        }
+        farmerModel = new FarmerModel();
+    }
+}

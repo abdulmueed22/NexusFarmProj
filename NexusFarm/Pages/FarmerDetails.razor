@@ -1,0 +1,47 @@
+﻿@*
+	This component is made for testing to see registered farmers and upload their products
+	and see supplier bids
+*@
+
+@using ClassLibraryModel
+@using ClassLibraryDAL
+
+@page "/farmerinfo"
+
+<PageTitle>Farmer Information</PageTitle>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>ID</th>
+			<th>Name</th>
+			<th>Contact</th>
+			<th>Address</th>
+			<th>More</th>
+		</tr>
+	</thead>
+	@foreach (var item in farmerInfo)
+	{
+		<tr>
+			<td>@item.FID</td>
+			<td>@item.farmerName</td>
+			<td>@item.farmerContact</td>
+			<td>@item.farmerAddress</td>
+			<td><a href="fproduct/@item.FID">Add Product</a></td>
+		</tr>
+	}
+
+</table>
+
+
+@code {
+	public List<FarmerModel> farmerInfo { get; set; } = new List<FarmerModel>();
+	protected override void OnInitialized()
+	{
+		GetFarmers();
+	}
+
+	private void GetFarmers()
+	{
+		farmerInfo = FarmerDAL.GetFarmers();
+	}
+}

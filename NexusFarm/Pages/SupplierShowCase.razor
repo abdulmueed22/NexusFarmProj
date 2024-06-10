@@ -1,0 +1,54 @@
+﻿@*This Component will Showcase all the registered farmers to the Supplier
+where he can show his products and contact them*@
+
+@using ClassLibraryModel
+@using ClassLibraryDAL
+@page "/registeredfarmers"
+
+<PageTitle>Farmer Information</PageTitle>
+
+<br><br><br>
+<div class="container">
+	<div class="row">
+		<div class="col text-center">
+			<h2 style="color: rgba(0, 128, 0, 0.7); font-family: 'Arial', sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Registered Farmers</h2>
+		</div>
+	</div>
+</div>
+
+
+<div class="container-fluid">
+	@for (var i = 0; i < farmerInfo.Count; i += 3)
+	{
+		<div class="row mt-4 justify-content-center">
+			@for (var j = i; j < i + 3 && j < farmerInfo.Count; j++)
+			{
+				var item = farmerInfo[j];
+				<div class="col-md-3 m-2 p-4" style="background-color: #f0f0f0;">
+					<div>
+						<span class="font-weight-light">Name: @item.farmerName</span><br />
+						<span class="font-weight-bold">Company: @item.farmerCompany</span><br />
+						<span>Address: @item.farmerAddress</span>
+					</div>
+					<div class="mt-2">
+						<button type="button" class="btn btn-sm btn-success mr-2" onclick="window.location.href='https://wa.me/92@item.farmerContact'">Contact Us</button>
+						<a href="fproductshowcase/@item.FID" class="btn btn-sm btn-outline-success">Explore Products</a>
+					</div>
+				</div>
+			}
+		</div>
+	}
+</div>
+
+@code {
+	public List<FarmerModel> farmerInfo { get; set; } = new List<FarmerModel>();
+	protected override void OnInitialized()
+	{
+		GetFarmers();
+	}
+
+	private void GetFarmers()
+	{
+		farmerInfo = FarmerDAL.GetFarmers();
+	}
+}

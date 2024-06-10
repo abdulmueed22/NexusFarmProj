@@ -1,0 +1,65 @@
+﻿@page "/regsup"
+@inject IJSRuntime js
+@using ClassLibraryDAL
+@using ClassLibraryModel
+
+
+<div class="modal-body">
+
+    <form>
+        <div class="form-group">
+            <label for="exampleInputUserName">Supplier Name:</label>
+            <input type="text" class="form-control" id="exampleInputUserName"
+                   aria-describedby="nameHelp" placeholder="Enter Name"
+                   @bind-value="supplierModel.supplierName" required>
+            <small id="nameHelp" class="form-text text-muted">Enter Supplier's Name</small><br>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputPassword1">PIN:</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                   name="exampleInputPassword1" minlength="6" maxlength="6" pattern="\d{6}"
+                   aria-describedby=" pinHelp"
+                   @bind-value="supplierModel.supplierPIN" placeholder="PIN Code"
+                   title="Please enter a 6-digit PIN code" required>
+            <small id="pinHelp" class="form-text text-muted">Enter a 6 digit PIN code</small><br>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Enter your address:</label><br>
+            <textarea id="address" class="form-control" name="address" rows="4" cols="50"
+                      placeholder="Street 118, G11/4, Kahirpur, Sindh"
+                      aria-describedby="addressHelp" @bind="supplierModel.supplierAddress"
+                      required></textarea>
+            <small id="addressHelp" class="form-text text-muted">Enter your Street, Area, City and Province</small><br>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number:</label><br>
+            <input type="tel" class="form-control" id="phone" name="phone"
+                   placeholder="+92 (Enter 10-digit number)" @bind-value="supplierModel.supplierContact" required>
+            <small>Please enter the remaining 10 digits without spaces or dashes.</small><br>
+        </div>
+        <button type="submit" @onclick="SaveSupplier" class="btn btn-outline-success">Submit</button>
+    </form>
+
+</div>
+
+
+@code {
+    public SupplierModel supplierModel { get; set; } = new SupplierModel();
+    private string msg = String.Empty;
+    public void SaveSupplier()
+    {
+        int m = SupplierDAL.SaveSupplier(supplierModel);
+        if (m == 1)
+        {
+            js.InvokeVoidAsync("Success");
+        }
+        else
+        {
+            msg = "Error";
+        }
+        supplierModel = new SupplierModel();
+    }
+}

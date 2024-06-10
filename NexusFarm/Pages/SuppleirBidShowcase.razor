@@ -1,0 +1,135 @@
+﻿@*
+     Supplier will will come here when logged in    
+     This component will allow the Suppliers to upload their Bids
+     Which farmers can see and Suppliers can navigate to see farmers
+*@
+
+@using ClassLibraryDAL
+@using ClassLibraryModel
+@using System.Data.SqlClient
+@inject NavigationManager NavigationManager
+@page "/sbidshowcase/{sid}"
+<PageTitle>Product Information</PageTitle>
+
+<div class="container-fluid d-flex justify-content-center mx-2 my-2">
+    <form style="max-width: 88%;">
+        <div class="container m-4 p-4 rounded" style="background-color: #f0f0f0; max-width: 80%;">
+            <h5 class="text-center">Add new Bid</h5>
+            <br />
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" class="form-control" id="productName"
+                       aria-describedby="nameHelp" placeholder="Dates, Banana"
+                       @bind-value="supplierProduct.bidName" required>
+                <small id="nameHelp" class="form-text text-muted">Enter Product Name</small>
+            </div>
+
+            <div class="form-group">
+                <label for="productCategory">Product Category:</label>
+                <input type="text" class="form-control" id="productCategory"
+                       aria-describedby="categoryHelp" placeholder="Fresh Fruits or Dry Fruits"
+                       @bind-value="supplierProduct.bidCategory" required>
+                <small id="categoryHelp" class="form-text text-muted">Enter Product Category</small>
+            </div>
+
+            <div class="form-group">
+                <label for="productQuantity">Product Quantity:</label>
+                <input type="text" class="form-control" id="productQuantity"
+                       aria-describedby="quantityHelp" placeholder="500"
+                       @bind-value="supplierProduct.bidQty" required>
+                <small id="quantityHelp" class="form-text text-muted">Enter Minimum Product Quantity to Buy</small>
+            </div>
+
+            <div class="form-group">
+                <label for="productQuantity">Product Price:</label>
+                <input type="text" class="form-control" id="productQuantity"
+                       aria-describedby="quantityHelp" placeholder="50000"
+                       @bind-value="supplierProduct.bidPrice" required>
+                <small id="quantityHelp" class="form-text text-muted">Enter your proposed Price</small>
+            </div>
+            <div class="d-flex justify-content-center align-items-center pt-4">
+                <button type="submit" @onclick="SaveSupplierP" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 style="color: rgba(0, 128, 0, 0.7); font-family: 'Arial', sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Personal Bids</h2>
+        </div>
+    </div>
+</div>
+<br>
+
+<div class="container-fluid">
+    @for (var i = 0; i < sProductList.Count; i += 3)
+    {
+        <div class="row mt-4 justify-content-center">
+            @for (var j = i; j < i + 3 && j < sProductList.Count; j++)
+            {
+                var item = sProductList[j];
+                <div class="col-md-3 m-2 p-4" style="background-color: #f0f0f0;">
+                    <div>
+                        <span class="font-weight-light">Product Name: @item.bidName</span><br />
+                        <span class="font-weight-light">Product Category: @item.bidCategory</span><br />
+                        <span class="font-weight-light">Product Quantity: @item.bidQty</span><br />
+                        <span class="font-weight-bold">Proposed Price: @item.bidPrice</span><br />
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+
+@*From here Suppliers can navigate to see farmers and their products*@
+<div class="d-flex justify-content-center align-items-center p-4">
+    <button type="submit" @onclick="NavigateToFarmers" class="btn btn-success">See Registered Farmers</button>
+</div>
+
+
+@code {
+    [Parameter]
+    public string sid { get; set; }
+    public ClassLibraryModel.SupplierBidModel supplierProduct { get; set; } = new ClassLibraryModel.SupplierBidModel();
+    public List<ClassLibraryModel.SupplierBidModel> sProductList { get; set; } = new List<ClassLibraryModel.SupplierBidModel>();
+    private string msg = String.Empty;
+
+    private void NavigateToFarmers()
+    {
+        NavigationManager.NavigateTo("/registeredfarmers");
+    }
+
+
+    public void SaveSupplierP()
+    {
+        supplierProduct.SupplierID_FK = int.Parse(sid);
+        // await SaveSP(supplierProduct); 
+        int i = SupplierBidDAL.SaveSupplierBid(supplierProduct);
+        if(i == 1)
+        {
+            Console.WriteLine("Success");
+        }
+        else
+        {
+            Console.WriteLine("Error");
+        }
+        supplierProduct = new ClassLibraryModel.SupplierBidModel();
+    }
+  
+    protected override async Task OnInitializedAsync()
+    {
+        await GetSupplierProduct();
+    }
+
+    private async Task GetSupplierProduct()
+    {
+        sProductList = await SupplierBidDAL.GetSupplierProductBySupplierID(sid);
+    }
+}

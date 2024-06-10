@@ -1,0 +1,206 @@
+﻿@*
+    This Component will allow the farmers to Upload their Products
+    with image. Farmers can navigate here when logged in and from here he can
+    also navigate to see Bids of Suppleir
+*@
+
+
+@using Amazon.S3
+@using Amazon.S3.Model
+@using ClassLibraryDAL
+@using ClassLibraryModel
+@using System.Data.SqlClient
+@inject NavigationManager NavigationManager
+@page "/fproduct/{fid}"
+<PageTitle>Product Information</PageTitle>
+
+<div class="container-fluid d-flex justify-content-center mx-2 my-2">
+    <form style="max-width: 88%;">
+        <div class="container m-4 p-4 rounded" style="background-color: #f0f0f0; max-width: 80%;">
+            <h5 class="text-center">Add new product</h5>
+            <br />
+            <div class="form-group">
+                <label for="productName">Product Name:</label>
+                <input type="text" class="form-control" id="productName"
+                       aria-describedby="nameHelp" placeholder="Dates, Banana"
+                       @bind-value="farmerProduct.productName" required>
+                <small id="nameHelp" class="form-text text-muted">Enter Product Name</small>
+            </div>
+
+            <div class="form-group">
+                <label for="productCategory">Product Category:</label>
+                <input type="text" class="form-control" id="productCategory"
+                       aria-describedby="categoryHelp" placeholder="Fresh Fruits or Dry Fruits"
+                       @bind-value="farmerProduct.productCategory" required>
+                <small id="categoryHelp" class="form-text text-muted">Enter Product Category</small>
+            </div>
+
+            <div class="form-group">
+                <label for="productQuantity">Product Quantity:</label>
+                <input type="text" class="form-control" id="productQuantity"
+                       aria-describedby="quantityHelp" placeholder="500"
+                       @bind-value="farmerProduct.productQty" required>
+                <small id="quantityHelp" class="form-text text-muted">Enter Minimum Product Quantity to sell</small>
+            </div>
+
+            <div class="form-group">
+                <label for="farmerQuantity">Upload Product Image:</label><br />
+                <InputFile OnChange="SaveImg" />
+                <small class="form-text text-muted">Upload the Original Image</small>
+            </div>
+            <div class="d-flex justify-content-center align-items-center pt-4">
+            <button type="submit" @onclick="SaveFarmerP" class="btn btn-success">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2 style="color: rgba(0, 128, 0, 0.7); font-family: 'Arial', sans-serif; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Personal Inventory</h2>
+        </div>
+    </div>
+</div>
+<br>
+
+
+
+<div class="container">
+    @for (var i = 0; i < fProductList.Count; i += 2)
+    {
+        <div class="row m-2">
+            @for (var j = i; j < i + 2 && j < fProductList.Count; j++)
+            {
+                var item = fProductList[j];
+                <div class="col-md-6" style="padding: 0;">
+                    <div class="row m-2" style="border: 2px solid black">
+                        <div class="col-md-12" style="background-color: #f0f0f0;">
+                            <div class="row align-items-center">
+                                <div class="col-4 pt-1">
+                                    <img src="@item.productImg" class="img-fluid" alt="Product Image" style="max-height: 100px;">
+                                </div>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <span class="text-muted">@item.productCategory</span>
+                                        </div>
+                                        <div class="col-12">
+                                            <strong>@item.productName</strong>
+                                        </div>
+                                        <div class="col-12">
+                                            <span>Minimum Order Quantity: @item.productQty</span>
+                                        </div>
+                                        <div class="p-3 justify-content-center"><button @onclick="(()=>Deletefproduct(item.PID))">Delete</button></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<div class="d-flex justify-content-center align-items-center p-4">
+    <button type="submit" @onclick="NavigateToSuppliers" class="btn btn-success">See Suppliers</button>
+</div>
+
+@code {
+    [Parameter]
+    public string fid { get; set; }
+    public static string prodimgURL { get; set; }
+    public ClassLibraryModel.FarmerProduct farmerProduct { get; set; } = new ClassLibraryModel.FarmerProduct();
+    public List<ClassLibraryModel.FarmerProduct> fProductList { get; set; } = new List<ClassLibraryModel.FarmerProduct>();
+    private string msg = String.Empty;
+
+    private void NavigateToSuppliers()
+    {
+        NavigationManager.NavigateTo("/registeredsuppliers");
+    }
+
+    public async Task SaveFarmerP()
+    {
+        farmerProduct.PID_FK = int.Parse(fid);
+        farmerProduct.productImg = prodimgURL;
+        await SaveFP(farmerProduct);
+        farmerProduct = new ClassLibraryModel.FarmerProduct();
+    }
+    public async Task SaveImg(InputFileChangeEventArgs e)
+    {
+        IBrowserFile browserFile = e.File;
+
+        using (var stream = new MemoryStream())
+        {
+            await browserFile.OpenReadStream().CopyToAsync(stream);
+
+            using (var s3Client = new AmazonS3Client("AWS Access key ID", "AWS Secret Access Key", Amazon.RegionEndpoint.USWest2)) // Replace with your AWS credentials
+            {
+                var request = new PutObjectRequest
+                    {
+                        BucketName = "nexusfarm",
+                        Key = browserFile.Name,
+                        InputStream = stream,
+                        ContentType = browserFile.ContentType
+                    };
+
+                await s3Client.PutObjectAsync(request);
+                var urlRequest = new GetPreSignedUrlRequest
+                    {
+                        BucketName = "nexusfarm",
+                        Key = browserFile.Name,
+                        Expires = DateTime.Now.AddYears(1) 
+                    };
+
+                prodimgURL = s3Client.GetPreSignedURL(urlRequest);
+            }
+            farmerProduct.productImg = prodimgURL;
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFarmerProducts();
+    }
+
+    private async void Deletefproduct(int id)
+    {
+        FarmerProductDAL.DeleteFproduct(id);
+    }
+
+    private async Task GetFarmerProducts()
+    {
+        fProductList = await FarmerProductDAL.GetFarmerProductByFID(fid);
+    }
+
+    public static async Task SaveFP(ClassLibraryModel.FarmerProduct farmerProd)
+    {
+        try
+        {
+            farmerProd.productImg = prodimgURL;
+            SqlConnection con = DBContext.GetConnection();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("Sp_SaveFarmerProduct", con); 
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@productName", farmerProd.productName);
+            cmd.Parameters.AddWithValue("@PID_FK", farmerProd.PID_FK);
+            cmd.Parameters.AddWithValue("@productQty", farmerProd.productQty);
+            cmd.Parameters.AddWithValue("@productCategory", farmerProd.productCategory);
+            cmd.Parameters.AddWithValue("@productImg", farmerProd.productImg);
+            
+            cmd.ExecuteNonQuery();
+            con.Close();
+          
+        }
+        catch(Exception ex)
+        {
+            
+        }
+    }
+}
+

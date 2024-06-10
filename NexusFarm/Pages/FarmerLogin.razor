@@ -1,0 +1,54 @@
+﻿@page "/loginfarmer"
+@using ClassLibraryDAL
+@using ClassLibraryModel
+@inject NavigationManager NavigationManager
+
+<div class="modal-body">
+    <form @onsubmit="HandleLoginSubmit">
+        <div class="form-group">
+            <label for="exampleInputUserName">User Name</label>
+            <input type="text" class="form-control" id="exampleInputUserName"
+                   @bind="username" aria-describedby="nameHelp" placeholder="Enter User Name">
+            <small id="nameHelp" class="form-text text-muted">Enter your User Name</small>
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input type="password" class="form-control" id="exampleInputPassword1"
+                   @bind="password" name="exampleInputPassword1" minlength="6" maxlength="6" pattern="\d{6}"
+                   aria-describedby="pinHelp" placeholder="PIN Code" title="Please enter a 6-digit PIN code" required>
+            <small id="pinHelp" class="form-text text-muted">Enter your PIN code</small>
+        </div>
+        <button type="submit" @onclick="HandleLoginSubmit" class="btn btn-success">Submit</button>
+    </form>
+</div>
+
+
+@code {
+    string username;
+    int password;
+    private List<FarmerModel> listFarmers = new List<FarmerModel>();
+
+    protected override void OnInitialized()
+    {
+        listFarmers = FarmerDAL.GetFarmers();
+        base.OnInitialized();
+    }
+
+    private void HandleLoginSubmit()
+    {
+        foreach (var user in listFarmers)
+        {
+            if (user.farmerName == username && user.farmerPIN == password)
+            {
+                NavigationManager.NavigateTo($"/fproduct/{user.FID}");
+                return;
+            }
+        }
+    }
+
+    private void NavigateToSignUp()
+    {
+        NavigationManager.NavigateTo("/");
+    }
+}
+
