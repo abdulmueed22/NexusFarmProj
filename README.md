@@ -77,7 +77,7 @@ This project follows a three-tier architecture, separating presentation, applica
 ## How to Run
 1. Clone the repository:
    ```bash
-   git clone https://github.com/yourusername/NexusFarm.git
+   git clone https://github.com/abdulmueed22/NexusFarmProj.git
    ```
 2. Open the solution in Visual Studio.
 3. Set up the database using SQL Server Management Studio (SSMS).
