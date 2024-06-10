@@ -88,5 +88,3 @@ This project follows a three-tier architecture, separating presentation, applica
 
 ## Contribution
 Contributions are welcome! Fork the repository, make improvements, and submit pull requests to enhance NexusFarm.
-
-Give Spacing in this just
