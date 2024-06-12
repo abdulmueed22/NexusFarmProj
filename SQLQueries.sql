@@ -169,36 +169,3 @@ DELETE FROM Supplier_Bid
 WHERE bidID=@bidID
 END
 
-
-CREATE PROCEDURE sp_checkFarmerCredentials
-    @Username NVARCHAR(50),
-    @Pincode NVARCHAR(50)
-AS
-BEGIN
-    SET NOCOUNT ON;
-    
-    IF EXISTS (SELECT 1 FROM Farmer WHERE farmerName = @Username AND FarmerPIN = @Pincode)
-    BEGIN
-        SELECT 'Farmer' AS UserType; -- Return a string indicating user type
-    END
-    ELSE
-    BEGIN
-        RETURN; -- Return nothing if credentials don't match
-    END
-END
-GO
-
-
-
-CREATE PROCEDURE CheckFarmerCredentials
-    @farmerName NVARCHAR(50),
-    @farmerPIN NVARCHAR(50)
-AS
-BEGIN
-    SET NOCOUNT ON;
-    
-    IF EXISTS (SELECT 1 FROM Farmer WHERE farmerName = @farmerName AND farmerPIN = @farmerPIN)
-        SELECT 1 AS IsValid;
-    ELSE
-        SELECT 0 AS IsValid;
-END
