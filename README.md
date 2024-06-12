@@ -84,7 +84,3 @@ This project follows a three-tier architecture, separating presentation, applica
 4. Update database connection strings in the project's configuration files.
 5. Build and run the application.
 
-<br>
-
-## Contribution
-Contributions are welcome! Fork the repository, make improvements, and submit pull requests to enhance NexusFarm.
