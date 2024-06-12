@@ -1,4 +1,4 @@
-﻿@using ClassLibraryDAL
+@using ClassLibraryDAL
 @using ClassLibraryModel
 @using NexusFarm.Pages
 
@@ -104,43 +104,14 @@
 </div>
 <!--Signup Modal end-->
 
-<!--login Modal-->
+
+<!--Login  Modal for farmer-->
 <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login Type:</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="mx-2 d-flex justify-content-between">
-                    <button class="btn btn-outline-success" data-toggle="modal"
-                            data-target="#loginModalFarmer">
-                        Login as a
-                        Farmer
-                    </button>
-                    <button class="btn btn-outline-success" data-toggle="modal"
-                            data-target="#loginModalSupplier">
-                        Login as a
-                        Supplier
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!--login Modal end-->
-
-<!--Login  Modal for farmer-->
-<div class="modal fade" id="loginModalFarmer" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login as Farmer</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Login:</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -149,25 +120,6 @@
              
             </div>
             <FarmerLogin/>
-        </div>
-    </div>
-</div>
-<!-- login modal end -->
-
-<!--Login  Modal supplier-->
-<div class="modal fade" id="loginModalSupplier" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Login to as Supplier</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <SupplierLogin />
-            </div>
         </div>
     </div>
 </div>
