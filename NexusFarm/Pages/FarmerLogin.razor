@@ -1,4 +1,4 @@
-﻿@page "/loginfarmer"
+@page "/login"
 @using ClassLibraryDAL
 @using ClassLibraryModel
 @inject NavigationManager NavigationManager
@@ -19,31 +19,53 @@
             <small id="pinHelp" class="form-text text-muted">Enter your PIN code</small>
         </div>
         <button type="submit" @onclick="HandleLoginSubmit" class="btn btn-success">Submit</button>
+        @if (errorMessage != null)
+        {
+            <div class="alert alert-danger mt-2">@errorMessage</div>
+        }
     </form>
 </div>
 
-
 @code {
     string username;
-    int password;
+    string password;
     private List<FarmerModel> listFarmers = new List<FarmerModel>();
+    private List<SupplierModel> listSuppliers = new List<SupplierModel>();
+    private string errorMessage;
 
     protected override void OnInitialized()
     {
         listFarmers = FarmerDAL.GetFarmers();
+        listSuppliers = SupplierDAL.GetSupplier();
         base.OnInitialized();
     }
 
     private void HandleLoginSubmit()
     {
+        errorMessage = null;
+
+        // Check in farmers list
         foreach (var user in listFarmers)
         {
-            if (user.farmerName == username && user.farmerPIN == password)
+            if (user.farmerName == username && user.farmerPIN == int.Parse(password))
             {
                 NavigationManager.NavigateTo($"/fproduct/{user.FID}");
                 return;
             }
         }
+
+        // Check in suppliers list
+        foreach (var user in listSuppliers)
+        {
+            if (user.supplierName == username && user.supplierPIN == int.Parse(password))
+            {
+                NavigationManager.NavigateTo($"/sbidshowcase/{user.SupplierID}");
+                return;
+            }
+        }
+
+        // If no match found
+        errorMessage = "Username or password is incorrect.";
     }
 
     private void NavigateToSignUp()
